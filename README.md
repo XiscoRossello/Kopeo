@@ -1,133 +1,291 @@
-# Kopeo - Event Drinks Ticketing Platform
+<div align="center">
 
-Una plataforma web para la compra de tickets de bebidas en eventos con generación de códigos QR.
+# 🍸 Kopeo
 
-## 🚀 Características
+### *Revolucionant la gestió de tiquets de begudes en l'oci nocturn*
 
-- **Home Page**: Descubrimiento de eventos basado en geolocalización
-- **Página de Evento**: Detalles del evento y compra de bebidas con carrito
-- **Wallet**: Códigos QR para las bebidas compradas
-- **Scanner**: Escaneo de QR para comercios y canje de bebidas
-- **Backoffice**: CRUD de productos, eventos y configuración para comercios
-- **Panel Admin**: Gestión completa de usuarios, comercios, eventos y pedidos
-- **Pagos**: Integración con Stripe (modo test)
+[![Estat](https://img.shields.io/badge/Estat-En%20Desenvolupament-yellow)](https://github.com/XiscoRossello/Kopeo)
+[![Versió](https://img.shields.io/badge/Versió-1.0.0-blue)](https://github.com/XiscoRossello/Kopeo)
+[![Llicència](https://img.shields.io/badge/Llicència-MIT-green)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E)](https://supabase.com/)
 
-## 🛠️ Tech Stack
+</div>
 
-- **Next.js 16** (App Router, TypeScript)
-- **Tailwind CSS** (tema oscuro con paleta personalizada)
-- **Supabase** (Auth, PostgreSQL, Row Level Security)
-- **Stripe** (Checkout Sessions, Webhooks)
-- **Zustand** (gestión de estado del carrito)
-- **html5-qrcode** (escaneo de QR)
-- **qrcode** (generación de QR)
-- **lucide-react** (iconos)
+---
 
-## 📋 Requisitos
+## 📖 Descripció del Projecte
 
-- Node.js 18+
-- Cuenta de Supabase
-- Cuenta de Stripe (modo test)
+**Kopeo** és una aplicació web dissenyada per revolucionar la gestió de tiquets de begudes en l'àmbit de l'oci nocturn i els esdeveniments.
 
-## 🔧 Instalación
+### 🎭 El Problema
 
-1. Clona el repositorio e instala dependencias:
-```bash
-npm install
-```
+En discoteques, festivals i festes privades, els assistents sovint s'enfronten a **llargues cues** per adquirir begudes, cosa que genera incomoditat i dificulta la gestió de l'estoc als organitzadors.
 
-2. Configura las variables de entorno en `.env.local`:
-```env
-# Supabase - https://supabase.com/dashboard/project/YOUR_PROJECT/settings/api
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+### 💡 La Solució
 
-# Stripe - https://dashboard.stripe.com/apikeys
-STRIPE_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
+Kopeo soluciona aquest problema permetent la **compra anticipada de tiquets de begudes** directament des del mòbil. L'aplicació integra un sistema de pagament segur i genera un **codi QR únic** que es pot escanejar a la barra per bescanviar la beguda de forma ràpida i sense efectiu.
 
-# App URL
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
+---
 
-3. Ejecuta las migraciones de Supabase:
-   - Ve a tu proyecto en Supabase Dashboard
-   - Navega a SQL Editor
-   - Copia y ejecuta el contenido de `supabase/migrations/001_initial_schema.sql`
+## 🚧 Estat Actual
 
-4. Inicia el servidor de desarrollo:
-```bash
-npm run dev
-```
+> **Fase actual:** Desenvolupament Avançat (Febrer 2026)
 
-## 🧪 Stripe Test Cards
+| Aspecte | Detall |
+|---------|--------|
+| 📌 Versió | 1.0.0 - Febrer 2026 |
+| ⚙️ Progrés | Plataforma funcional amb totes les característiques principals implementades |
+| 🚀 Desplegament | Vercel + Supabase |
+| 🧪 Mode Test | Simulació de pagaments sense Stripe configurat |
 
-Para probar pagos en modo test, usa estas tarjetas:
+---
 
-| Tarjeta | Número | Resultado |
-|---------|--------|-----------|
-| Visa    | 4242 4242 4242 4242 | Pago exitoso |
-| Mastercard | 5555 5555 5555 4444 | Pago exitoso |
-| Visa 3D Secure | 4000 0025 0000 3155 | Requiere autenticación |
-| Rechazada | 4000 0000 0000 0002 | Tarjeta rechazada |
+## ✨ Funcionalitats Implementades
 
-- Fecha: cualquier fecha futura
-- CVC: cualquier 3 dígitos
-- Código postal: cualquier 5 dígitos
+### 👤 Gestió d'Usuaris
+- ✅ Registre amb email i contrasenya
+- ✅ Autenticació segura amb Supabase Auth
+- ✅ Perfils d'usuari amb rols (client, commerce, admin)
+- ✅ Historial de compres
 
-## 🔒 Stripe Webhooks
+### 🔍 Exploració d'Esdeveniments
+- ✅ Pàgina principal amb descobriment d'esdeveniments
+- ✅ Geolocalització per trobar esdeveniments propers
+- ✅ Cerca i filtres d'esdeveniments
+- ✅ Informació detallada de cada esdeveniment
 
-Para desarrollo local con webhooks:
+### 🎟️ Compra de Tiquets
+- ✅ Selecció de begudes amb quantitats
+- ✅ Carret de compra persistent (Zustand)
+- ✅ Checkout integrat amb Stripe (o mode simulació)
+- ✅ Generació automàtica de codis QR
 
-1. Instala Stripe CLI: https://stripe.com/docs/stripe-cli
-2. Ejecuta el listener:
-```bash
-stripe listen --forward-to localhost:3000/api/webhook
-```
-3. Copia el webhook secret (`whsec_...`) a `.env.local`
+### 📱 Wallet Digital
+- ✅ Visualització de begudes comprades
+- ✅ Codis QR únics per cada beguda
+- ✅ Agrupació per esdeveniments
+- ✅ Estat de bescanvi (disponible/bescanviat)
 
-## 📁 Estructura del Proyecto
+### 🔍 Escàner QR per Comercis
+- ✅ Escaneig de codis QR amb la càmera
+- ✅ Validació de tiquets en temps real
+- ✅ Bescanvi de begudes selectives
+- ✅ Historial de bescanvis
+
+### 🎛️ Panell per a Comercis (Backoffice)
+- ✅ Gestió de productes (CRUD complet)
+- ✅ Gestió d'esdeveniments
+- ✅ Configuració del comerç
+- ✅ Dashboard amb estadístiques
+
+### 🛡️ Panell d'Administració
+- ✅ Gestió d'usuaris i rols
+- ✅ Gestió de comercis
+- ✅ Gestió d'esdeveniments
+- ✅ Gestió de productes
+- ✅ Historial de comandes
+- ✅ Dashboard amb mètriques globals
+
+---
+
+## 🛠️ Stack Tecnològic
+
+### Frontend
+| Tecnologia | Descripció |
+|------------|------------|
+| **Next.js 16** | Framework React amb App Router i TypeScript |
+| **Tailwind CSS** | Estils amb tema fosc personalitzat |
+| **Zustand** | Gestió d'estat del carret de compra |
+| **Lucide React** | Biblioteca d'icones |
+| **html5-qrcode** | Escaneig de codis QR |
+| **qrcode** | Generació de codis QR |
+
+### Backend
+| Tecnologia | Descripció |
+|------------|------------|
+| **Supabase** | Backend-as-a-Service |
+| **PostgreSQL** | Base de dades relacional |
+| **Row Level Security** | Polítiques de seguretat a nivell de fila |
+| **Auth** | Autenticació d'usuaris |
+| **Stripe** | Processament de pagaments (opcional) |
+
+### Infraestructura
+| Servei | Ús |
+|--------|-----|
+| **Vercel** | Desplegament i hosting |
+| **Supabase Cloud** | Base de dades i autenticació |
+| **GitHub** | Control de versions |
+
+---
+
+## 📁 Estructura del Projecte
 
 ```
 src/
 ├── app/
-│   ├── admin/           # Panel de administración
-│   ├── api/             # API Routes (checkout, webhook)
-│   ├── auth/            # Autenticación (login, register)
-│   ├── backoffice/      # Panel de comercio
-│   ├── checkout/        # Proceso de pago
-│   ├── event/[id]/      # Detalle de evento
-│   ├── scanner/         # Escáner QR para comercios
-│   ├── wallet/          # Wallet con códigos QR
-│   └── page.tsx         # Home (eventos cercanos)
+│   ├── admin/              # Panell d'administració
+│   │   ├── users/          # Gestió d'usuaris
+│   │   ├── commerces/      # Gestió de comercis
+│   │   ├── events/         # Gestió d'esdeveniments
+│   │   ├── products/       # Gestió de productes
+│   │   └── orders/         # Historial de comandes
+│   ├── api/
+│   │   ├── checkout/       # API de checkout
+│   │   └── webhook/        # Webhook de Stripe
+│   ├── auth/
+│   │   ├── login/          # Pàgina de login
+│   │   ├── register/       # Pàgina de registre
+│   │   └── callback/       # Callback OAuth
+│   ├── backoffice/         # Panell de comerci
+│   │   ├── products/       # CRUD productes
+│   │   ├── events/         # CRUD esdeveniments
+│   │   └── commerce/       # Configuració
+│   ├── checkout/           # Procés de pagament
+│   │   ├── success/        # Pagament exitós
+│   │   └── cancel/         # Pagament cancel·lat
+│   ├── event/[id]/         # Detall d'esdeveniment
+│   ├── scanner/            # Escàner QR
+│   ├── wallet/             # Cartera digital
+│   └── page.tsx            # Home
 ├── components/
-│   ├── Navbar.tsx
-│   ├── CartDrawer.tsx
-│   └── LoadingSpinner.tsx
+│   ├── Navbar.tsx          # Navegació
+│   ├── CartDrawer.tsx      # Carret lateral
+│   └── LoadingSpinner.tsx  # Spinner de càrrega
 ├── lib/
-│   ├── supabase/        # Cliente Supabase
-│   ├── stripe.ts        # Configuración Stripe
-│   └── types.ts         # TypeScript types
+│   ├── supabase/           # Clients Supabase
+│   ├── stripe.ts           # Configuració Stripe
+│   └── types.ts            # Tipus TypeScript
 ├── store/
-│   └── cart.ts          # Zustand cart store
-└── middleware.ts        # Auth middleware
+│   └── cart.ts             # Store Zustand
+└── middleware.ts           # Middleware d'auth
 ```
 
-## 🎨 Paleta de Colores
+---
 
-- **Primary**: `#8400D6`, `#9341EA` (púrpura)
-- **Accent/Orange**: `#FF6600`, `#F5A300` (naranja)
-- **Background**: `#0A0A0A` (negro)
-- **Surface**: `#1A1A1A` (gris oscuro)
-- **Border**: `#2A2A2A` (borde)
+## 🔧 Instal·lació
 
-## 👥 Roles de Usuario
+### Requisits Previs
+- Node.js 18+
+- Compte de Supabase
+- Compte de Stripe (opcional, per pagaments reals)
 
-- **client**: Usuario normal, puede comprar bebidas
-- **commerce**: Dueño de comercio, puede crear eventos y escanear QR
-- **admin**: Acceso total a todo el sistema
+### Passos
 
-## 📝 Licencia
+1. **Clona el repositori:**
+```bash
+git clone https://github.com/XiscoRossello/Kopeo.git
+cd kopeo
+npm install
+```
 
-MIT
+2. **Configura les variables d'entorn** a `.env.local`:
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Stripe (opcional - sense configurar s'activa mode simulació)
+STRIPE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# URL de l'aplicació
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+3. **Executa les migracions** a Supabase SQL Editor:
+   - Copia el contingut de `supabase/migrations/` i executa'l
+
+4. **Inicia el servidor de desenvolupament:**
+```bash
+npm run dev
+```
+
+5. **Obre** [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🧪 Mode Simulació (Sense Stripe)
+
+Quan `STRIPE_SECRET_KEY` no està configurat o té el valor per defecte, l'aplicació funciona en **mode simulació**:
+
+- Els pagaments es processen instantàniament
+- No cal introduir dades de targeta
+- Les begudes s'afegeixen directament a la wallet
+- Perfecte per a proves i desenvolupament
+
+---
+
+## 🎨 Paleta de Colors
+
+| Color | Hex | Ús |
+|-------|-----|-----|
+| **Primary** | `#8400D6` | Color principal (lila) |
+| **Primary Light** | `#9341EA` | Variació clara |
+| **Accent** | `#FF6600` | Color d'accent (taronja) |
+| **Accent Light** | `#F5A300` | Variació clara |
+| **Background** | `#0A0A0A` | Fons principal |
+| **Surface** | `#1A1A1A` | Superfícies |
+| **Border** | `#2A2A2A` | Vores |
+
+---
+
+## 👥 Rols d'Usuari
+
+| Rol | Permisos |
+|-----|----------|
+| **client** | Veure esdeveniments, comprar begudes, usar wallet |
+| **commerce** | Tot de client + gestionar productes, esdeveniments, escanejar QR |
+| **admin** | Accés total al sistema |
+
+---
+
+## 📅 Full de Ruta (Roadmap)
+
+| Període | Tasques | Estat |
+|---------|---------|-------|
+| 🍂 **Oct - Des 2025** | Anàlisi, disseny i prototips | ✅ Completat |
+| 🎄 **Nadal 2025** | Configuració del projecte i funcionalitats bàsiques | ✅ Completat |
+| 🌱 **Gen - Feb 2026** | Desenvolupament avançat, integració de pagaments | ✅ Completat |
+| 🧪 **Mar - Abr 2026** | Proves, optimització i millores | 🔄 En progrés |
+| 🎓 **Maig 2026** | Entrega final i defensa del projecte | ⏳ Pendent |
+
+---
+
+## 👥 Equip
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>👨‍💻 Autors</strong><br/>
+      Francisco Javier Rosselló Jerónimo<br/>
+      Ferran Azpiazu Adrover
+    </td>
+    <td align="center">
+      <strong>👨‍🏫 Tutor</strong><br/>
+      Miquel Antoni Capellà Arrom
+    </td>
+    <td align="center">
+      <strong>🏫 Centre</strong><br/>
+      CIFP Francesc de Borja Moll
+    </td>
+  </tr>
+</table>
+
+---
+
+## 📝 Llicència
+
+Aquest projecte està sota la llicència MIT. Consulta l'arxiu [LICENSE](LICENSE) per a més detalls.
+
+---
+
+<div align="center">
+
+**Fet amb ❤️ a les Illes Balears**
+
+[Reportar un error](https://github.com/XiscoRossello/Kopeo/issues) · [Sol·licitar funcionalitat](https://github.com/XiscoRossello/Kopeo/issues)
+
+</div>
