@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
+
+// Modo simulación - sin Stripe real
+const SIMULATE_STRIPE = !process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === 'sk_test_your_stripe_secret_key'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +32,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         event_id: eventId,
         total,
-        status: 'pending',
+        status: SIMULATE_STRIPE ? 'paid' : 'pending',
       })
       .select()
       .single()
@@ -55,7 +57,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Error creando items del pedido' }, { status: 500 })
     }
 
-    // Create Stripe session
+    // MODO SIMULACIÓN: Crear wallet items directamente sin Stripe
+    if (SIMULATE_STRIPE) {
+      // Create wallet items for each purchased item
+      const walletItems = items.flatMap((item: { productId: string; quantity: number }) =>
+        Array(item.quantity).fill(null).map(() => ({
+          user_id: user.id,
+          order_id: order.id,
+          product_id: item.productId,
+          event_id: eventId,
+          status: 'available',
+        }))
+      )
+
+      await supabase.from('wallet_items').insert(walletItems)
+
+      return NextResponse.json({ 
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?order_id=${order.id}&simulated=true` 
+      })
+    }
+
+    // MODO REAL: Usar Stripe
+    const { stripe } = await import('@/lib/stripe')
+    
     const lineItems = items.map((item: { name: string; price: number; quantity: number }) => ({
       price_data: {
         currency: 'eur',
@@ -80,7 +104,6 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Update order with stripe session id
     await supabase
       .from('orders')
       .update({ stripe_payment_intent_id: session.id })
