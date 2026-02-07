@@ -15,7 +15,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -47,27 +46,8 @@ export default function RegisterPage() {
       return
     }
 
-    setSuccess(true)
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center space-y-4 max-w-sm animate-fade-in">
-          <div className="text-6xl">📧</div>
-          <h2 className="text-2xl font-bold">¡Revisa tu email!</h2>
-          <p className="text-gray-500">
-            Te hemos enviado un enlace de confirmación a <strong>{email}</strong>
-          </p>
-          <Link
-            href="/auth/login"
-            className="inline-block gradient-accent px-6 py-3 rounded-xl font-semibold text-white"
-          >
-            Ir a iniciar sesión
-          </Link>
-        </div>
-      </div>
-    )
+    // Registro exitoso - redirigir al home (el usuario queda autenticado automáticamente)
+    router.push('/')
   }
 
   return (
