@@ -276,7 +276,46 @@ Quan `STRIPE_SECRET_KEY` no està configurat o té el valor per defecte, l'aplic
 
 ---
 
-## 📝 Llicència
+## � Documentació del Projecte - UD1A
+
+Documentació completa per a la primera fase del projecte intermodular:
+
+### 📋 Documents Principals
+
+| Document | Descripció | Enllaç |
+|----------|------------|--------|
+| 📅 **Planificació** | Revisió i ajust de la planificació inicial. Estat del projecte, fites assolides i calendari ajustat | [docs/PLANIFICACIO.md](docs/PLANIFICACIO.md) |
+| 📘 **Memòria Tècnica** | Arquitectura del sistema, decisions tècniques, stack tecnològic i implementació detallada de funcionalitats | [docs/MEMORIA_TECNICA.md](docs/MEMORIA_TECNICA.md) |
+| 🚀 **Guia d'Instal·lació** | Guia pas a pas per instal·lar i configurar el projecte en local i producció | [docs/GUIA_INSTALLACIO.md](docs/GUIA_INSTALLACIO.md) |
+
+### 📖 Contingut de la Documentació
+
+**Planificació:**
+- Planificació inicial vs planificació real
+- Desviacions i ajustos aplicats
+- Estat actual del desenvolupament (07/02/2026)
+- Funcionalitats implementades: Home, Login, Backoffice
+- Calendari ajustat fins a maig 2026
+
+**Memòria Tècnica:**
+- Arquitectura de tres capes del sistema
+- Decisions arquitectòniques (Next.js App Router, Supabase BaaS)
+- Stack tecnològic complet
+- Disseny de base de dades (12 taules + RLS)
+- Implementació detallada de funcionalitats
+- Seguretat i desplegament
+
+**Guia d'Instal·lació:**
+- Requisits previs i verificació
+- Instal·lació local pas a pas
+- Configuració de Supabase amb migracions SQL
+- Configuració de Stripe (opcional)
+- Execució i desplegament
+- Solució de problemes comuns
+
+---
+
+## �📝 Llicència
 
 Aquest projecte està sota la llicència MIT. Consulta l'arxiu [LICENSE](LICENSE) per a més detalls.
 
