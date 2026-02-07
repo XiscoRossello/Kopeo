@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { Event, Product, EventProduct } from '@/lib/types'
 import { Plus, Pencil, Trash2, X, Loader2, CalendarDays, MapPin, Package } from 'lucide-react'
 import Image from 'next/image'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([])
@@ -240,10 +241,16 @@ function EventModal({
   const [endDate, setEndDate] = useState(
     event?.end_date ? new Date(event.end_date).toISOString().slice(0, 16) : ''
   )
-  const [latitude, setLatitude] = useState(event?.latitude?.toString() || '')
-  const [longitude, setLongitude] = useState(event?.longitude?.toString() || '')
+  const [latitude, setLatitude] = useState<number | null>(event?.latitude ?? null)
+  const [longitude, setLongitude] = useState<number | null>(event?.longitude ?? null)
   const [isActive, setIsActive] = useState(event?.is_active ?? true)
   const [loading, setLoading] = useState(false)
+
+  const handleAddressChange = (newAddress: string, lat: number | null, lng: number | null) => {
+    setAddress(newAddress)
+    setLatitude(lat)
+    setLongitude(lng)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -256,8 +263,8 @@ function EventModal({
       image_url: imageUrl || null,
       start_date: new Date(startDate).toISOString(),
       end_date: endDate ? new Date(endDate).toISOString() : null,
-      latitude: latitude ? parseFloat(latitude) : null,
-      longitude: longitude ? parseFloat(longitude) : null,
+      latitude: latitude,
+      longitude: longitude,
       is_active: isActive,
     })
 
@@ -324,39 +331,14 @@ function EventModal({
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm text-gray-400">Dirección</label>
-            <input
-              type="text"
+            <label className="text-sm text-gray-400">Ubicació</label>
+            <AddressAutocomplete
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
-              placeholder="Dirección del evento"
+              latitude={latitude}
+              longitude={longitude}
+              onChange={handleAddressChange}
+              placeholder="Cerca una adreça..."
             />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-sm text-gray-400">Latitud</label>
-              <input
-                type="number"
-                step="any"
-                value={latitude}
-                onChange={(e) => setLatitude(e.target.value)}
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
-                placeholder="39.4699"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm text-gray-400">Longitud</label>
-              <input
-                type="number"
-                step="any"
-                value={longitude}
-                onChange={(e) => setLongitude(e.target.value)}
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
-                placeholder="-0.3763"
-              />
-            </div>
           </div>
 
           <div className="space-y-1">
