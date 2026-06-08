@@ -27,13 +27,13 @@ export default function WalletPage() {
 
     setUserId(user.id)
 
-    // Generate QR code with user ID
+    // Generate QR code with user ID (estándar para máxima compatibilidad con lectores)
     const qr = await QRCode.toDataURL(user.id, {
       width: 300,
       margin: 2,
       color: {
-        dark: '#FFFFFF',
-        light: '#0A0A0A',
+        dark: '#0A0A0A',
+        light: '#FFFFFF',
       },
     })
     setQrCode(qr)
@@ -108,13 +108,17 @@ export default function WalletPage() {
               <span>Tu código QR personal</span>
             </div>
             {qrCode && (
-              <Image
-                src={qrCode}
-                alt="Tu QR"
-                width={250}
-                height={250}
-                className="rounded-xl mx-auto"
-              />
+              <div className="flex justify-center">
+                <div className="bg-white p-3 rounded-xl">
+                  <Image
+                    src={qrCode}
+                    alt="Tu QR"
+                    width={250}
+                    height={250}
+                    className="rounded-lg"
+                  />
+                </div>
+              </div>
             )}
             <p className="text-xs text-center text-gray-500 max-w-[250px]">
               Este código es único y está vinculado a tu cuenta. No lo compartas.
