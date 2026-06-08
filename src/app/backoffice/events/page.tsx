@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { Event, Product, EventProduct } from '@/lib/types'
 import { Plus, Pencil, Trash2, X, Loader2, CalendarDays, MapPin, Package } from 'lucide-react'
 import Image from 'next/image'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([])
@@ -325,12 +326,14 @@ function EventModal({
 
           <div className="space-y-1">
             <label className="text-sm text-gray-400">Dirección</label>
-            <input
-              type="text"
+            <AddressAutocomplete
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
-              placeholder="Dirección del evento"
+              onChange={(addr, lat, lon) => {
+                setAddress(addr)
+                if (lat) setLatitude(lat)
+                if (lon) setLongitude(lon)
+              }}
+              placeholder="Buscar dirección del evento"
             />
           </div>
 

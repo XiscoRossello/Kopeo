@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
+import { stripe } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,7 +55,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Error creando items del pedido' }, { status: 500 })
     }
 
-    // Create Stripe session
+    // SIMULATED CHECKOUT (local/dev without Stripe)
+    if (!stripe) {
+      // Mark order as paid immediately for simulation
+      await supabase
+        .from('orders')
+        .update({ status: 'paid', stripe_payment_intent_id: 'simulated_' + order.id })
+        .eq('id', order.id)
+
+      // Create wallet items (same logic as webhook)
+      const { data: createdOrderItems } = await supabase
+        .from('order_items')
+        .select('*')
+        .eq('order_id', order.id)
+
+      if (createdOrderItems) {
+        const walletItems = createdOrderItems.flatMap((item: { quantity: number; product_id: string }) =>
+          Array(item.quantity).fill(null).map(() => ({
+            user_id: user.id,
+            order_id: order.id,
+            product_id: item.product_id,
+            event_id: eventId,
+            status: 'available' as const,
+          }))
+        )
+        await supabase.from('wallet_items').insert(walletItems)
+      }
+
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+      return NextResponse.json({
+        url: `${appUrl}/checkout/success?session_id=simulated&order_id=${order.id}`,
+      })
+    }
+
+    // REAL STRIPE CHECKOUT
     const lineItems = items.map((item: { name: string; price: number; quantity: number }) => ({
       price_data: {
         currency: 'eur',
