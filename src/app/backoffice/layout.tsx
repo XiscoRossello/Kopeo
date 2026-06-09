@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Commerce } from '@/lib/types'
-import { LayoutDashboard, Package, CalendarDays, Store, Plus, Loader2 } from 'lucide-react'
+import { LayoutDashboard, Package, CalendarDays, Store, ShoppingCart, Plus, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -40,6 +40,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     { href: '/backoffice', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/backoffice/products', label: 'Productos', icon: Package },
     { href: '/backoffice/events', label: 'Eventos', icon: CalendarDays },
+    { href: '/backoffice/orders', label: 'Pedidos', icon: ShoppingCart },
     { href: '/backoffice/commerce', label: 'Mi Comercio', icon: Store },
   ]
 

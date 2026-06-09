@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Commerce } from '@/lib/types'
 import { Store, Loader2, Save } from 'lucide-react'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 export default function CommercePage() {
   const [commerce, setCommerce] = useState<Commerce | null>(null)
@@ -159,12 +160,14 @@ export default function CommercePage() {
 
           <div className="space-y-1">
             <label className="text-sm text-gray-400">Dirección</label>
-            <input
-              type="text"
+            <AddressAutocomplete
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
-              placeholder="Dirección del local"
+              onChange={(addr, lat, lon) => {
+                setAddress(addr)
+                if (lat) setLatitude(lat)
+                if (lon) setLongitude(lon)
+              }}
+              placeholder="Buscar dirección del local"
             />
           </div>
 

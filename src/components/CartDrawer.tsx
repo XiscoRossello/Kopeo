@@ -1,23 +1,28 @@
 'use client'
 
 import { ShoppingCart, Minus, Plus, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCartStore } from '@/store/cart'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 export default function CartDrawer() {
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { items, updateQuantity, removeItem, clearCart, getTotal, getItemCount } = useCartStore()
   const router = useRouter()
   const itemCount = getItemCount()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleCheckout = () => {
     setIsOpen(false)
     router.push('/checkout')
   }
 
-  if (itemCount === 0) return null
+  if (!mounted || itemCount === 0) return null
 
   return (
     <>

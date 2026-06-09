@@ -9,6 +9,10 @@ const supabaseAdmin = createClient(
 )
 
 export async function POST(request: NextRequest) {
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 })
+  }
+
   const body = await request.text()
   const sig = request.headers.get('stripe-signature')!
 
